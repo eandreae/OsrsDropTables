@@ -1,7 +1,7 @@
 /* Online Java Compiler and Editor */
 import java.util.HashMap;
 
-public class HelloWorld{
+public class VardorvisDrops{
 
      public static void main(String []args){
          // Roll 1/64
