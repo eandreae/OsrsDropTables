@@ -16,12 +16,13 @@ public class DukeDrops{
             // 3/8 chromium ingot
             // 1/8 eye of the duke
         
-        int num_rolls = 1000;
+        int num_rolls = 550;
         int unique_chance = 90;
         int awakener_orb_chance = 48;
         int tablet_chance = 25;
         int quartz_chance = 200;
         int vestige_rolls = 0;
+        int PetChance = 2500;
         String OutputReward = "";
         boolean TabletOwned = false;
 
@@ -107,6 +108,13 @@ public class DukeDrops{
             else {
                 // Reward the player with TRASH
             }
+
+            // Roll for pet (1/2500)
+            if (RollTheDice(2500))
+            {
+                System.out.println("PET AWARDED AT KILL " + i + " WOOOOOOOOOOOOOOO");
+            }
+            
             
         }
 
@@ -114,7 +122,7 @@ public class DukeDrops{
      }
      
      public static boolean RollTheDice(int DropRate){
-         double Check = Math.floor(Math.random()*(DropRate))+1;
+         int Check = DiceRoll(DropRate);
          return (Check == DropRate);
      }
 
@@ -122,7 +130,7 @@ public class DukeDrops{
         return (int)(Math.floor(Math.random()*(max))+1);
      }
      public static boolean VestigeRoll(){
-         double Check = Math.floor(Math.random()*(8))+1;
+         int Check = DiceRoll(UniqueTable.size());
          return (Check <= 3);
      }
 }
