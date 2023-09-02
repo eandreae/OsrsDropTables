@@ -4,7 +4,7 @@ public class Runner
 {
     public Runner() { }
 
-    public void Run()
+    public void Run(int Purple_Chance, int Simulation_Rolls)
     {
         // The purpose of this program is to simulate Purple Drops.
         // First set up the drop rate of a 300 based off of the osrs wiki
@@ -28,8 +28,6 @@ public class Runner
         //      roughly 1/17.13, assume 1/17.
         // *************************************************************
         ToaTable RewardTable = new ToaTable();
-        int Purple_Chance    = 24;
-        int Simulation_Rolls = 1000;
         int Purple_Reward;
         String message = " awarded at kill ";
         
