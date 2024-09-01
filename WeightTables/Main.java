@@ -1,4 +1,4 @@
-package DropTables;
+package WeightTables;
 import java.util.Random;
 
 public class Main {

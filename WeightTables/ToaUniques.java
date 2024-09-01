@@ -1,4 +1,4 @@
-package DropTables;
+package WeightTables;
 
 public class ToaUniques {
 
