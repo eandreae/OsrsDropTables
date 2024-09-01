@@ -23,7 +23,7 @@ public class ToaUniques {
 
     public ToaUniques(){}
 
-    public UniqueItem[] getToaPurples()
+    public UniqueItem[] getPurples()
     {
         return this.ToaPurples;
     }
