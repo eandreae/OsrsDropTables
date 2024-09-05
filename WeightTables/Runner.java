@@ -13,7 +13,7 @@ public class Runner {
         default2
     };
 
-    public void runCoX(int raidPoints, int numRaids)
+    public void runCoX(int raidPoints, int numRaids, int partySize)
     {
         Random rand = new Random();
         CoXUniques CoX = new CoXUniques();
@@ -23,17 +23,22 @@ public class Runner {
         int accuracy = CoX.getAccuracy();
         int totalPWeight = accuracy * accuracy;
         int cappedRolls;
-        int remainingPoints = raidPoints % CoX.getCappedPoints();
+        int remainingPoints;
+        int totalLoots;
+        int totalPurples;
         
+        System.out.println(numRaids + " raids, each with " + raidPoints + " points, in a party of " + partySize);
         for (int i = 1; i <= numRaids; i++)
         {
-            int totalPurples = 0;
+            totalLoots = 0;
+            totalPurples = 0;
             cappedRolls = raidPoints / CoX.getCappedPoints();
+            remainingPoints = raidPoints % CoX.getCappedPoints();
 
             // No more than 6 purples may be rolled.
             if(cappedRolls > 6){cappedRolls = 6;}
             
-            while(cappedRolls >= 1)
+            while(cappedRolls >= 1 && totalLoots < partySize && totalPurples < 6)
             {
                 // Roll purple using capped points.
                 purpleWeight = (int)Math.ceil(accuracy * (CoX.getCappedPoints() / CoX.getPurpleRate()));
@@ -41,27 +46,46 @@ public class Runner {
                 if (checkPurple <= purpleWeight)
                 {
                     // Award purple
+                    System.out.print("Player " + (totalLoots+1) + ": ");
                     rollUnique(Purples, i);
+                    totalLoots++;
                     totalPurples++;
                 }
                 cappedRolls -= 1;
             }
 
-            // Roll purple using the remaining points.
-            purpleWeight = (int)Math.ceil(accuracy * (remainingPoints / CoX.getPurpleRate()));
-            checkPurple = rand.nextInt(totalPWeight + 1);
-            if (checkPurple <= purpleWeight)
+            if(totalLoots < partySize)
             {
-                rollUnique(Purples, i);
-                totalPurples++;
-            }
-            else
-            {
-                if(totalPurples <= 0)
+                // Roll purple using the remaining points.
+                while(partySize - totalLoots > 0)
                 {
-                    rollLootCoX(i, raidPoints);
+                    if(totalPurples <= 0 && totalPurples < 6)
+                    {
+                        purpleWeight = (int)Math.ceil(accuracy * ((remainingPoints/partySize) / CoX.getPurpleRate()));
+                        checkPurple = rand.nextInt(totalPWeight + 1);
+                        if (checkPurple <= purpleWeight)
+                        {
+                            System.out.print("Player " + (totalLoots+1) + ": ");
+                            rollUnique(Purples, i);
+                            totalLoots++;
+                            totalPurples++;
+                        }
+                        else
+                        {
+                            System.out.print("Player " + (totalLoots+1) + ": ");
+                            rollLootCoX(i, raidPoints/partySize);
+                            totalLoots++;
+                        }
+                    }
+                    else
+                    {
+                        System.out.print("Player " + (totalLoots+1) + ": ");
+                        rollLootCoX(i, raidPoints/partySize);
+                        totalLoots++;
+                    }
                 }
             }
+            System.out.println();
         }
     }
 
@@ -75,13 +99,13 @@ public class Runner {
 
         CoXUniques CoX = new CoXUniques();
         int lootRolls = CoX.getLootRolls();
-        double pChance = CoX.getPurpleRate();
         UniqueItem[] raidLoot = CoX.getLoot();
 
         for (int i = 1; i <= lootRolls; i++)
         {
             loot = rollItem(raidLoot, killCount);
-            int quantity = (int)(loot.getQuantity() * (raidPoints / pChance));
+            //int quantity = (int)(loot.getQuantity() * (raidPoints / pChance));
+            int quantity = (raidPoints / loot.getDivisor());
             if (loot.getName() == "Dark Relic" || loot.getName() == "Torn Prayer Scroll")
             {
                 quantity = 1;

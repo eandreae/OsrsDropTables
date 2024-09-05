@@ -4,7 +4,7 @@ public class UniqueItem
 {
     public String name;
     public int weight;
-    public int quantity;
+    public int divisor;
 
     public UniqueItem(String name, int weight)
     {
@@ -12,11 +12,11 @@ public class UniqueItem
         this.weight = weight;
     }
 
-    public UniqueItem(String name, int weight, int quantity)
+    public UniqueItem(String name, int weight, int divisor)
     {
         this.name = name;
         this.weight = weight;
-        this.quantity = quantity;
+        this.divisor = divisor;
     }
 
     public String getName()
@@ -29,9 +29,9 @@ public class UniqueItem
         return this.weight;
     }
 
-    public int getQuantity()
+    public int getDivisor()
     {
-        return this.quantity;
+        return this.divisor;
     }
         
 }
