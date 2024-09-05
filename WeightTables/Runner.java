@@ -13,6 +13,93 @@ public class Runner {
         default2
     };
 
+    public void runCoX(int raidPoints, int numRaids)
+    {
+        Random rand = new Random();
+        CoXUniques CoX = new CoXUniques();
+        UniqueItem[] Purples = CoX.getPurples();
+        int checkPurple;
+        int purpleWeight;
+        int accuracy = CoX.getAccuracy();
+        int totalPWeight = accuracy * accuracy;
+        int cappedRolls;
+        int remainingPoints = raidPoints % CoX.getCappedPoints();
+        
+        for (int i = 1; i <= numRaids; i++)
+        {
+            int totalPurples = 0;
+            cappedRolls = raidPoints / CoX.getCappedPoints();
+
+            // No more than 6 purples may be rolled.
+            if(cappedRolls > 6){cappedRolls = 6;}
+            
+            while(cappedRolls >= 1)
+            {
+                // Roll purple using capped points.
+                purpleWeight = (int)Math.ceil(accuracy * (CoX.getCappedPoints() / CoX.getPurpleRate()));
+                checkPurple = rand.nextInt(totalPWeight + 1);
+                if (checkPurple <= purpleWeight)
+                {
+                    // Award purple
+                    rollUnique(Purples, i);
+                    totalPurples++;
+                }
+                cappedRolls -= 1;
+            }
+
+            // Roll purple using the remaining points.
+            purpleWeight = (int)Math.ceil(accuracy * (remainingPoints / CoX.getPurpleRate()));
+            checkPurple = rand.nextInt(totalPWeight + 1);
+            if (checkPurple <= purpleWeight)
+            {
+                rollUnique(Purples, i);
+                totalPurples++;
+            }
+            else
+            {
+                if(totalPurples <= 0)
+                {
+                    rollLootCoX(i, raidPoints);
+                }
+            }
+        }
+    }
+
+    
+
+    public void rollLootCoX(int killCount, int raidPoints)
+    {
+        String msg1 = "Loot ";
+        String msg2 = " at killcount: ";
+        UniqueItem loot;
+
+        CoXUniques CoX = new CoXUniques();
+        int lootRolls = CoX.getLootRolls();
+        double pChance = CoX.getPurpleRate();
+        UniqueItem[] raidLoot = CoX.getLoot();
+
+        for (int i = 1; i <= lootRolls; i++)
+        {
+            loot = rollItem(raidLoot, killCount);
+            int quantity = (int)(loot.getQuantity() * (raidPoints / pChance));
+            if (loot.getName() == "Dark Relic" || loot.getName() == "Torn Prayer Scroll")
+            {
+                quantity = 1;
+            }
+            if (i == lootRolls && i > 1)
+            {
+                msg1 += "and " + quantity + " " + loot.getName();
+            }
+            else 
+            {
+                msg1 += (quantity + " " + loot.getName() + ", ");
+            }
+        }
+
+        System.out.println(msg1 + msg2 + killCount);
+
+    }
+
     public void run(int pChance, int numRaids, String raid)
     {
         int checkPurple;
@@ -48,7 +135,6 @@ public class Runner {
             else
             {
                 // Award normal loot.
-                // 3 Rolls of normal loot for ToA
                 rollLoot(Loot, lootRolls, i);
                 
             }
