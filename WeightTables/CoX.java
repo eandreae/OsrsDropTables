@@ -21,11 +21,11 @@ public class CoX {
     static UniqueItem claws = new UniqueItem("Dragon Claws", 3);
     static UniqueItem maul = new UniqueItem("Elder Maul", 2);
     static UniqueItem kodai = new UniqueItem("Kodai Insignia", 2);
-    static UniqueItem bow = new UniqueItem("Twisted Bow", 2);
+    static UniqueItem tbow = new UniqueItem("Twisted Bow", 2);
 
     public static UniqueItem[] CoXPurples =
     {
-        bow,kodai,maul,claws,legs,body,hat,
+        tbow,kodai,maul,claws,legs,body,hat,
         dinhs,dhcb,buckler,arcane,dex
     };
 
@@ -72,7 +72,7 @@ public class CoX {
         dRelic
     };
 
-    public static void runCoX(int raidPoints, int numRaids, int partySize)
+    public static void runCoX(int raidPoints, int numRaids, int partySize, boolean normLoot)
     {
         Random rand = new Random();
         int checkPurple;
@@ -128,20 +128,26 @@ public class CoX {
                         }
                         else
                         {
-                            System.out.print("Player " + (totalLoots+1) + ": ");
-                            rollLootCoX(i, raidPoints/partySize);
+                            if(normLoot)
+                            {
+                                System.out.print("Player " + (totalLoots+1) + ": ");
+                                rollLootCoX(i, raidPoints/partySize);
+                            }
                             totalLoots++;
                         }
                     }
                     else
                     {
-                        System.out.print("Player " + (totalLoots+1) + ": ");
-                        rollLootCoX(i, raidPoints/partySize);
+                        if(normLoot)
+                        {
+                            System.out.print("Player " + (totalLoots+1) + ": ");
+                            rollLootCoX(i, raidPoints/partySize);
+                        }
                         totalLoots++;
                     }
                 }
             }
-            System.out.println();
+            //System.out.println();
         }
     }
 
@@ -171,5 +177,21 @@ public class CoX {
 
         System.out.println(msg1 + msg2 + killCount);
 
+    }
+
+    public static void getTbowChance(int raidPoints)
+    {
+        String msg1 = "With ";
+        String msg2 = " Points, tbow chance is 1/";
+
+        int totalPWeight = WeightFunctions.getTotalWeight(CoXPurples);
+
+        // 1 out of purple weight
+        double purpleWeight = (double)accuracy * (((double)raidPoints) / purpleRate); // large int
+        double purpleRate = ((double)accuracy * 100.0)/purpleWeight; //  10k / large int
+        double tbowRate = totalPWeight/(double)tbow.weight;
+        int tbowChance = (int)Math.round(tbowRate * purpleRate);
+
+        System.out.println(msg1 + raidPoints + msg2 + tbowChance);
     }
 }
