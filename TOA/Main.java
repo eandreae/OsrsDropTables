@@ -11,7 +11,7 @@ public class Main
         //      % chance = 5.839% (20,437 / 3500)
         //      roughly 1/17.13, assume 1/17.
         // *************************************************************
-        int Purple_Chance    = 24;
+        int Purple_Chance    = 17;
         int Simulation_Rolls = 1000;
         Runner r = new Runner();
         r.Run(Purple_Chance, Simulation_Rolls);
