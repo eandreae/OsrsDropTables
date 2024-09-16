@@ -57,7 +57,7 @@ public class WeightFunctions {
         }
     }
 
-    public static UniqueItem rollItem(UniqueItem[] UniquesList, int killCount)
+    public static UniqueItem rollItem(UniqueItem[] UniquesList)
     {
         UniqueItem loot = default1;
 

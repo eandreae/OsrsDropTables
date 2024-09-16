@@ -159,7 +159,7 @@ public class CoX {
 
         for (int i = 1; i <= lootRolls; i++)
         {
-            loot = WeightFunctions.rollItem(CoXLoot, killCount);
+            loot = WeightFunctions.rollItem(CoXLoot);
             int quantity = (raidPoints / loot.getDivisor());
             if (loot.getName() == "Dark Relic" || loot.getName() == "Torn Prayer Scroll")
             {
