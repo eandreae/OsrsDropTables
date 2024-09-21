@@ -1,9 +1,7 @@
 package WeightTables;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -163,82 +161,5 @@ public class DT2 {
         
         // Finally, return Normal Loot.
         return output = "Normal Loot";
-    } 
-
-    // ORDER OF OPERATIONS FOR ALL DT2 BOSSES
-        // 1. Roll for Unique
-        // 2. Roll for Orb
-        // 3. Roll for Tablet (Universal 1/25)
-        // 4. Roll for Quartz (Universal 1/200)
-        // 5. Roll for Supply Drop (Universal 1/5)
-        // 6. All else fails, Roll Normal loot.
-
-    // public static UniqueItem rollDT2BossLoot(String BossName)
-    // {
-    //     Random rand = new Random();
-    //     UniqueItem unique;
-    //     int checker;
-
-    //     // First, check Unique
-    //     checker = rand.nextInt(UniqueChance+1);
-    //     if (checker == UniqueChance)
-    //     {
-    //         // Roll Unique Table
-    //         unique = WeightFunctions.rollItem(BossUniques);
-
-    //         // Check Vestige
-    //         if (unique.getName() == "Vestige Roll")
-    //         {
-    //             VESTIGE_ROLLS++;
-    //             if (VESTIGE_ROLLS >= 3)
-    //             {
-    //                 VESTIGE_ROLLS = 0;
-    //                 return Vestige;
-    //             }
-    //             return vestigeRoll;
-    //         }
-
-    //         // Check Virtus
-    //         if (unique.getName() == "Virtus Piece")
-    //         {
-    //             return WeightFunctions.rollItem(VirtusTable);
-    //         }
-
-    //         // Check Axe Piece
-    //         if (unique.getName() == "Axe Piece") {return AxePiece;}
-            
-    //         // Otherwise, reward unique as normal.
-    //         return unique;
-    //     }
-
-    //     // Next, check Orb
-    //     checker = rand.nextInt(OrbChance+1);
-    //     if (checker == OrbChance) {return orb;}
-
-    //     // Next, check Tablet
-    //     if (!HAS_TABLET) 
-    //     {
-    //         checker = rand.nextInt(TabletChance+1);
-    //         if (checker == TabletChance)
-    //         {
-    //             // Award Tablet;
-    //             HAS_TABLET = true;
-    //             return Tablet;
-    //         }
-    //     }
-
-    //     // Next, check Quartz
-    //     checker = rand.nextInt(QuartzChance+1);
-    //     if (checker == QuartzChance) {return Quartz;}
-
-    //     // Next, check Supply Drop
-    //     checker = rand.nextInt(SupplyChance+1);
-    //     if (checker == SupplyChance) {return supply;}
-
-    //     // Finally, award normal loot 
-    //     return normal;       
-    // }
-
-
-
+    }
 }
