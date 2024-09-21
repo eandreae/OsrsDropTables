@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "Chromium Ingot",
+        "weight": 3
+    },
+    {
+        "id": 2,
+        "name": "Vestige Roll",
+        "weight": 3
+    },
+    {
+        "id": 3,
+        "name": "Axe Piece",
+        "weight": 1
+    },
+    {
+        "id": 4,
+        "name": "Virtus Piece",
+        "weight": 1
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "name": "Virtus Mask",
+        "weight": 1
+    },
+    {
+        "id": 2,
+        "name": "Virtus Robe Top",
+        "weight": 1
+    },
+    {
+        "id": 3,
+        "name": "Virtus Robe Bottom",
+        "weight": 1
+    }
+]

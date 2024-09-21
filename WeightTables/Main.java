@@ -4,21 +4,22 @@ public class Main {
     public static void main(String[] args) {
 
 
-        // All Raids
-        int NUM_RAIDS = 100;
+        // Universal
+        int NUM_KILLS = 100;
+        boolean SHOW_NORMAL_LOOT = true;
         // Chambers
         int COX_POINTS = 570000;
         int PARTY_SIZE = 1;
-        boolean SHOW_NORMAL_LOOT = false;
-        // ToA
+        // DT2
+        String Duke = "Duke";
+        String Leviathan = "Leviathan";
+        String Whisperer = "Whisperer";
+        String Vardorvis = "Vardorvis";
         //int TOA_INVOCATION = 300;
 
-        CoX.runCoX(COX_POINTS, NUM_RAIDS, PARTY_SIZE, SHOW_NORMAL_LOOT);
-        CoX.getTbowChance(COX_POINTS);
-        //r.run(PURPLE_CHANCE, NUM_RAIDS, RAID);
-        //Duke.run(NUM_RAIDS);
-        //Leviathan.run(NUM_RAIDS);
-        //Vardorvis.run(NUM_RAIDS);
-        //Whisperer.run(NUM_RAIDS);
+        //CoX.runCoX(COX_POINTS, NUM_KILLS, PARTY_SIZE, SHOW_NORMAL_LOOT);
+        //CoX.getTbowChance(COX_POINTS);
+
+        DT2.simulateBoss(Leviathan, 100, SHOW_NORMAL_LOOT);
     }
 }
