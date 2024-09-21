@@ -6,9 +6,11 @@
         "Tablet Chance": 25,
         "Quartz Chance": 200,
         "Supply Chance": 5,
+        "Pet Chance": 3000,
         "Tablet Name": "Strangled Tablet",
         "Quartz Name": "Blood Quartz",
         "Vestige Name": "Ultor Vestige",
-        "Axe Piece Name": "Executioner's Axe Head"
+        "Axe Piece Name": "Executioner's Axe Head",
+        "Pet Name": "Butch"
     }
 ]

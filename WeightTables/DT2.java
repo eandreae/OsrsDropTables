@@ -39,18 +39,39 @@ public class DT2 {
         JSONObject BossUniques = (JSONObject) BossArray.get(0);
         String loot = null;
 
+        Long PC = (Long) BossUniques.get("Pet Chance");
+        int PetChance = PC.intValue();
+        String PetName = (String) BossUniques.get("Pet Name");
+        Random rand = new Random();
+        int roll;
+
         System.out.println("The Player killed " + InputBossName + " " + numKills + " times, receiving: ");
         
         for (int i = 1; i <= numKills; i++)
         {
+            // Regular Loot
             loot = rollDT2Loot(BossUniques, UniversalDT2Uniques, VirtusTable);
+            // Check for Pet
+            roll = rand.nextInt(PetChance+1);
             if ((loot.equals("Normal Loot") || loot.equals("Supply Drop")) && !ShowNormalLoot)
             {
-                // Print nothing
+                // Print nothing for normal loot, still check pet.
+                if (roll == PetChance)
+                {
+                    System.out.println(PetName + " at killcount: " + i);
+                }
+
             }
             else 
             {
-                System.out.println(loot + " at killcount: " + i);
+                if (roll == PetChance)
+                {
+                    System.out.println(loot + " & " + PetName + " at killcount: " + i);
+                }
+                else 
+                {
+                    System.out.println(loot + " at killcount: " + i);
+                }
             }
         }
     }

@@ -6,9 +6,11 @@
         "Tablet Chance": 25,
         "Quartz Chance": 200,
         "Supply Chance": 5,
+        "Pet Chance": 2000,
         "Tablet Name": "Sirenic Tablet",
         "Quartz Name": "Shadow Quartz",
         "Vestige Name": "Bellator Vestige",
-        "Axe Piece Name": "Siren's Staff"
+        "Axe Piece Name": "Siren's Staff",
+        "Pet Name": "Wisp"
     }
 ]

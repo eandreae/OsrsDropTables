@@ -6,9 +6,11 @@
         "Tablet Chance": 25,
         "Quartz Chance": 200,
         "Supply Chance": 5,
+        "Pet Chance": 2500,
         "Tablet Name": "Frozen Tablet",
         "Quartz Name": "Ice Quartz",
         "Vestige Name": "Magus Vestige",
-        "Axe Piece Name": "Eye of the Duke"
+        "Axe Piece Name": "Eye of the Duke",
+        "Pet Name": "Baron"
     }
 ]
