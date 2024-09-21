@@ -5,8 +5,8 @@ public class Main {
 
 
         // Universal
-        int NUM_KILLS = 100;
-        boolean SHOW_NORMAL_LOOT = true;
+        int NUM_KILLS = 1000;
+        boolean SHOW_NORMAL_LOOT = false;
         // Chambers
         int COX_POINTS = 570000;
         int PARTY_SIZE = 1;
@@ -20,6 +20,6 @@ public class Main {
         //CoX.runCoX(COX_POINTS, NUM_KILLS, PARTY_SIZE, SHOW_NORMAL_LOOT);
         //CoX.getTbowChance(COX_POINTS);
 
-        DT2.simulateBoss(Leviathan, 100, SHOW_NORMAL_LOOT);
+        DT2.simulateBoss(Leviathan, NUM_KILLS, SHOW_NORMAL_LOOT);
     }
 }
