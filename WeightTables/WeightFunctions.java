@@ -1,87 +1,46 @@
 package WeightTables;
 import java.util.Random;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 public class WeightFunctions {
-
-    static UniqueItem default1 = new UniqueItem("default1", 5);
-    static UniqueItem default2 = new UniqueItem("default2", 5);
-    public static UniqueItem[] defaultItems = 
-    {
-        default1,
-        default2
-    };
-
-    public static UniqueItem[] getDefault()
-    {
-        return defaultItems;
-    }
     
-    public static int getTotalWeight(UniqueItem[] UniquesList)
+    public static int getTotalWeight(JSONArray UniquesList)
     {
         int totalWeight = 0;
 
-        for (UniqueItem item : UniquesList)
+        for (Object entry : UniquesList)
         {
-            totalWeight += item.getWeight();
+            JSONObject item = (JSONObject) entry;
+            Long long_weight = (Long) item.get("weight");
+            int weight = long_weight.intValue();
+            totalWeight += weight;
         }
 
         return totalWeight;
     }
 
-    public static void rollUnique(UniqueItem[] UniquesList, int killCount)
+    public static JSONObject rollItem(JSONArray ItemList)
     {
-        int totalWeight = getTotalWeight(UniquesList);
-        
-        String msg1 = "Purple ";
-        String msg2 = " at killcount: ";
+        int totalWeight = getTotalWeight(ItemList);
 
         Random r = new Random();
-        int lootRoll = r.nextInt(totalWeight+1);
+        int roll = r.nextInt(totalWeight+1);
 
-        for (UniqueItem item : UniquesList)
+        JSONObject output = null;
+
+        for (Object entry : ItemList)
         {
-            int uniqueWeight = item.getWeight();
-            String uniqueName = item.getName();
+            JSONObject item = (JSONObject) entry;
+            Long long_weight = (Long) item.get("weight");
+            int weight = long_weight.intValue();
 
-            if (lootRoll <= uniqueWeight)
-            {
-                // Reward this item, and stop.
-                System.out.println(msg1 + uniqueName + msg2 + killCount);
-                return;
-            }
-            else
-            {
-                // try again
-                lootRoll -= uniqueWeight;
-            }
+            if (roll <= weight) 
+            { return output = item;}
+            else 
+            { roll -= weight;}
         }
-    }
-
-    public static UniqueItem rollItem(UniqueItem[] UniquesList)
-    {
-        UniqueItem loot = default1;
-
-        int totalWeight = getTotalWeight(UniquesList);
-
-        Random r = new Random();
-        int lootRoll = r.nextInt(totalWeight+1);
-
-        for (UniqueItem item : UniquesList)
-        {
-            int uniqueWeight = item.getWeight();
-
-            if (lootRoll <= uniqueWeight)
-            {
-                // Reward this item, and stop.
-                return item;
-            }
-            else
-            {
-                // try again
-                lootRoll -= uniqueWeight;
-            }
-        }
-
-        return loot;
+        return output;
     }
 }

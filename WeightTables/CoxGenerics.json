@@ -1,0 +1,200 @@
+[
+  {
+    "id": 1,
+    "name": "Death Runes",
+    "weight": 1,
+    "divisor": 36
+  },
+  {
+    "id": 2,
+    "name": "Blood Runes",
+    "weight": 1,
+    "divisor": 32
+  },
+  {
+    "id": 3,
+    "name": "Soul Runes",
+    "weight": 1,
+    "divisor": 20
+  },
+  {
+    "id": 4,
+    "name": "Rune Arrows",
+    "weight": 1,
+    "divisor": 14
+  },
+  {
+    "id": 5,
+    "name": "Dragon Arrows",
+    "weight": 1,
+    "divisor": 202
+  },
+  {
+    "id": 6,
+    "name": "Ranarr Weeds",
+    "weight": 1,
+    "divisor": 788
+  },
+  {
+    "id": 7,
+    "name": "Toadflax",
+    "weight": 1,
+    "divisor": 520
+  },
+  {
+    "id": 8,
+    "name": "Irit Leaves",
+    "weight": 1,
+    "divisor": 162
+  },
+  {
+    "id": 9,
+    "name": "Avantoes",
+    "weight": 1,
+    "divisor": 324
+  },
+  {
+    "id": 10,
+    "name": "Kwuarms",
+    "weight": 1,
+    "divisor": 378
+  },
+  {
+    "id": 11,
+    "name": "Snapdragons",
+    "weight": 1,
+    "divisor": 1300
+  },
+  {
+    "id": 12,
+    "name": "Cadantines",
+    "weight": 1,
+    "divisor": 330
+  },
+  {
+    "id": 13,
+    "name": "Lantadymes",
+    "weight": 1,
+    "divisor": 248
+  },
+  {
+    "id": 14,
+    "name": "Dwarf Weeds",
+    "weight": 1,
+    "divisor": 200
+  },
+  {
+    "id": 15,
+    "name": "Torstols",
+    "weight": 1,
+    "divisor": 810
+  },
+  {
+    "id": 16,
+    "name": "Silver Ore",
+    "weight": 1,
+    "divisor": 20
+  },
+  {
+    "id": 17,
+    "name": "Coal",
+    "weight": 1,
+    "divisor": 20
+  },
+  {
+    "id": 18,
+    "name": "Gold Ore",
+    "weight": 1,
+    "divisor": 44
+  },
+  {
+    "id": 19,
+    "name": "Mithril Ore",
+    "weight": 1,
+    "divisor": 32
+  },
+  {
+    "id": 20,
+    "name": "Adamantite Ore",
+    "weight": 1,
+    "divisor": 166
+  },
+  {
+    "id": 21,
+    "name": "Runite Ore",
+    "weight": 1,
+    "divisor": 2000
+  },
+  {
+    "id": 22,
+    "name": "Uncut Sapphires",
+    "weight": 1,
+    "divisor": 188
+  },
+  {
+    "id": 23,
+    "name": "Uncut Emeralds",
+    "weight": 1,
+    "divisor": 142
+  },
+  {
+    "id": 24,
+    "name": "Uncut Rubies",
+    "weight": 1,
+    "divisor": 242
+  },
+  {
+    "id": 25,
+    "name": "Uncut Diamonds",
+    "weight": 1,
+    "divisor": 508
+  },
+  {
+    "id": 26,
+    "name": "Lizardmen Fangs",
+    "weight": 1,
+    "divisor": 28
+  },
+  {
+    "id": 27,
+    "name": "Pure Essence",
+    "weight": 1,
+    "divisor": 2
+  },
+  {
+    "id": 28,
+    "name": "Saltpetre",
+    "weight": 1,
+    "divisor": 24
+  },
+  {
+    "id": 29,
+    "name": "Teak Planks",
+    "weight": 1,
+    "divisor": 96
+  },
+  {
+    "id": 30,
+    "name": "Mahogany Planks",
+    "weight": 1,
+    "divisor": 238
+  },
+  {
+    "id": 31,
+    "name": "Dynamite",
+    "weight": 1,
+    "divisor": 54
+  },
+  {
+    "id": 32,
+    "name": "Torn Prayer Scroll",
+    "weight": 1,
+    "divisor": 0
+  },
+  {
+    "id": 33,
+    "name": "Dark Relic",
+    "weight": 1,
+    "divisor": 0
+  }
+]

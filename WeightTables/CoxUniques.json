@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Dexterous Prayer Scroll",
+    "weight": 20
+  },
+  {
+    "id": 2,
+    "name": "Arcane Prayer Scroll",
+    "weight": 20
+  },
+  {
+    "id": 3,
+    "name": "Twisted Buckler",
+    "weight": 4
+  },
+  {
+    "id": 4,
+    "name": "Dragon Hunter Crossbow",
+    "weight": 4
+  },
+  {
+    "id": 5,
+    "name": "Dinh's Bulwark",
+    "weight": 3
+  },
+  {
+    "id": 6,
+    "name": "Ancestral Hat",
+    "weight": 3
+  },
+  {
+    "id": 7,
+    "name": "Ancestral Robe Top",
+    "weight": 3
+  },
+  {
+    "id": 8,
+    "name": "Ancestral Robe Bottom",
+    "weight": 3
+  },
+  {
+    "id": 9,
+    "name": "Dragon Claws",
+    "weight": 3
+  },
+  {
+    "id": 10,
+    "name": "Elder Maul",
+    "weight": 2
+  },
+  {
+    "id": 11,
+    "name": "Kodai Insignia",
+    "weight": 2
+  },
+  {
+    "id": 12,
+    "name": "Twisted Bow",
+    "weight": 2
+  }
+]
