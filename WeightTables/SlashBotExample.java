@@ -34,18 +34,6 @@ public class SlashBotExample extends ListenerAdapter
         // These commands might take a few minutes to be active after creation/update/delete
         CommandListUpdateAction commands = jda.updateCommands();
 
-        // Moderation commands with required options
-        commands.addCommands(
-            Commands.slash("ban", "Ban a user from this server. Requires permission to ban users.")
-                .addOptions(new OptionData(USER, "user", "The user to ban") // USER type allows to include members of the server or other users by id
-                    .setRequired(true)) // This command requires a parameter
-                .addOptions(new OptionData(INTEGER, "del_days", "Delete messages from the past days.") // This is optional
-                    .setRequiredRange(0, 7)) // Only allow values between 0 and 7 (inclusive)
-                .addOptions(new OptionData(STRING, "reason", "The ban reason to use (default: Banned by <user>)")) // optional reason
-                .setGuildOnly(true) // This way the command can only be executed from a guild, and not the DMs
-                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.BAN_MEMBERS)) // Only members with the BAN_MEMBERS permission are going to see this command
-        );
-
         // Simple reply commands
         commands.addCommands(
             Commands.slash("say", "Makes the bot say what you tell it to")
@@ -60,10 +48,7 @@ public class SlashBotExample extends ListenerAdapter
         );
 
         commands.addCommands(
-            Commands.slash("prune", "Prune messages from this channel")
-                .addOption(INTEGER, "amount", "How many messages to prune (Default 100)") // simple optional argument
-                .setGuildOnly(true)
-                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE))
+            Commands.slash("fart", "Make me fart uwu")
         );
 
         // Send the new set of commands to discord, this will override any existing global commands with the new set provided here
@@ -79,22 +64,16 @@ public class SlashBotExample extends ListenerAdapter
             return;
         switch (event.getName())
         {
-        case "ban":
-            Member member = event.getOption("user").getAsMember(); // the "user" option is required, so it doesn't need a null-check here
-            User user = event.getOption("user").getAsUser();
-            ban(event, user, member);
-            break;
         case "say":
             say(event, event.getOption("content").getAsString()); // content is required so no null-check here
             break;
         case "leave":
             leave(event);
             break;
-        case "prune": // 2 stage command with a button prompt
-            prune(event);
-            break;
+        case "fart":
+            fart(event);
         default:
-            event.reply("I can't handle that command right now :(").setEphemeral(true).queue();
+            event.reply("English Motherfucker do you speak it").setEphemeral(true).queue();
         }
     }
 
@@ -124,45 +103,6 @@ public class SlashBotExample extends ListenerAdapter
         }
     }
 
-    public void ban(SlashCommandInteractionEvent event, User user, Member member)
-    {
-        event.deferReply(true).queue(); // Let the user know we received the command before doing anything else
-        InteractionHook hook = event.getHook(); // This is a special webhook that allows you to send messages without having permissions in the channel and also allows ephemeral messages
-        hook.setEphemeral(true); // All messages here will now be ephemeral implicitly
-        if (!event.getMember().hasPermission(Permission.BAN_MEMBERS))
-        {
-            hook.sendMessage("You do not have the required permissions to ban users from this server.").queue();
-            return;
-        }
-
-        Member selfMember = event.getGuild().getSelfMember();
-        if (!selfMember.hasPermission(Permission.BAN_MEMBERS))
-        {
-            hook.sendMessage("I don't have the required permissions to ban users from this server.").queue();
-            return;
-        }
-
-        if (member != null && !selfMember.canInteract(member))
-        {
-            hook.sendMessage("This user is too powerful for me to ban.").queue();
-            return;
-        }
-
-        // optional command argument, fall back to 0 if not provided
-        int delDays = event.getOption("del_days", 0, OptionMapping::getAsInt); // this last part is a method reference used to "resolve" the option value
-
-        // optional ban reason with a lazy evaluated fallback (supplier)
-        String reason = event.getOption("reason",
-                () -> "Banned by " + event.getUser().getName(), // used if getOption("reason") is null (not provided)
-                OptionMapping::getAsString); // used if getOption("reason") is not null (provided)
-
-        // Ban the user and send a success response
-        event.getGuild().ban(user, delDays, TimeUnit.DAYS)
-            .reason(reason) // audit-log ban reason (sets X-AuditLog-Reason header)
-            .flatMap(v -> hook.sendMessage("Banned user " + user.getName())) // chain a followup message after the ban is executed
-            .queue(); // execute the entire call chain
-    }
-
     public void say(SlashCommandInteractionEvent event, String content)
     {
         event.reply(content).queue(); // This requires no permissions!
@@ -178,17 +118,8 @@ public class SlashBotExample extends ListenerAdapter
                 .queue();
     }
 
-    public void prune(SlashCommandInteractionEvent event)
+    public void fart(SlashCommandInteractionEvent event)
     {
-        OptionMapping amountOption = event.getOption("amount"); // This is configured to be optional so check for null
-        int amount = amountOption == null
-                ? 100 // default 100
-                : (int) Math.min(200, Math.max(2, amountOption.getAsLong())); // enforcement: must be between 2-200
-        String userId = event.getUser().getId();
-        event.reply("This will delete " + amount + " messages.\nAre you sure?") // prompt the user with a button menu
-            .addActionRow(// this means "<style>(<id>, <label>)", you can encode anything you want in the id (up to 100 characters)
-                Button.secondary(userId + ":delete", "Nevermind!"),
-                Button.danger(userId + ":prune:" + amount, "Yes!")) // the first parameter is the component id we use in onButtonInteraction above
-            .queue();
+        event.reply("teehee i farted").queue();
     }
 }
