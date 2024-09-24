@@ -13,8 +13,7 @@ public class WeightFunctions {
         for (Object entry : UniquesList)
         {
             JSONObject item = (JSONObject) entry;
-            Long long_weight = (Long) item.get("weight");
-            int weight = long_weight.intValue();
+            int weight = ((Long) item.get("weight")).intValue();
             totalWeight += weight;
         }
 
@@ -33,8 +32,7 @@ public class WeightFunctions {
         for (Object entry : ItemList)
         {
             JSONObject item = (JSONObject) entry;
-            Long long_weight = (Long) item.get("weight");
-            int weight = long_weight.intValue();
+            int weight = ((Long) item.get("weight")).intValue();
 
             if (roll <= weight) 
             { return output = item;}

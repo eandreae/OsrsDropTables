@@ -40,6 +40,7 @@ public class DT2 {
         Long PC = (Long) BossUniques.get("Pet Chance");
         int PetChance = PC.intValue();
         String PetName = (String) BossUniques.get("Pet Name");
+        
         Random rand = new Random();
         int roll;
 
