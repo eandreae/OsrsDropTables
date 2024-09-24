@@ -18,8 +18,9 @@ public class CoX {
     public static String COX_UNIQUES_PATH = "WeightTables\\CoxUniques.json";
     public static String COX_GENERICS_PATH = "WeightTables\\CoxGenerics.json";
 
-    public static void runCoX(int raidPoints, int numRaids, int partySize, boolean normLoot)
+    public static String runCoX(int numRaids, int raidPoints, int partySize, boolean normLoot)
     {
+        String output = "";
         JSONParser parser = new JSONParser();
         JSONArray CoxUniques = null;
         JSONArray CoxGenerics = null;
@@ -44,6 +45,7 @@ public class CoX {
         }
         
         System.out.println(numRaids + " raids, each with " + raidPoints + " points, in a party of " + partySize);
+        output += (numRaids + " raids, each with " + raidPoints + " points, in a party of " + partySize + "\n");
         for (int i = 1; i <= numRaids; i++)
         {
             totalLoots = 0;
@@ -63,11 +65,13 @@ public class CoX {
                 {
                     // Award purple
                     System.out.print("Player " + (totalLoots+1) + ": ");
+                    output += ("Player " + (totalLoots+1) + ": ");
 
                     Purple = WeightFunctions.rollItem(CoxUniques);
                     String name = (String) Purple.get("name");
 
                     System.out.print("Purple: " + name + " at killcount: " + i + "\n");
+                    output += ("Purple: " + name + " at killcount: " + i + "\n");
                     
                     totalLoots++;
                     totalPurples++;
@@ -87,11 +91,13 @@ public class CoX {
                         if (checkPurple <= purpleWeight)
                         {
                             System.out.print("Player " + (totalLoots+1) + ": ");
+                            output += ("Player " + (totalLoots+1) + ": ");
 
                             Purple = WeightFunctions.rollItem(CoxUniques);
                             String name = (String) Purple.get("name");
 
                             System.out.print("Purple: " + name + " at killcount: " + i + "\n");
+                            output += ("Purple: " + name + " at killcount: " + i + "\n");
 
                             totalLoots++;
                             totalPurples++;
@@ -101,7 +107,8 @@ public class CoX {
                             if(normLoot)
                             {
                                 System.out.print("Player " + (totalLoots+1) + ": ");
-                                rollLootCoX(i, raidPoints/partySize, CoxGenerics);
+                                output += ("Player " + (totalLoots+1) + ": ");
+                                output += rollLootCoX(i, raidPoints/partySize, CoxGenerics);
                             }
                             totalLoots++;
                         }
@@ -111,17 +118,20 @@ public class CoX {
                         if(normLoot)
                         {
                             System.out.print("Player " + (totalLoots+1) + ": ");
-                            rollLootCoX(i, raidPoints/partySize, CoxGenerics);
+                            output += ("Player " + (totalLoots+1) + ": ");
+                            output += rollLootCoX(i, raidPoints/partySize, CoxGenerics);
                         }
                         totalLoots++;
                     }
                 }
             }
         }
+        return output;
     }
 
-    public static void rollLootCoX(int killCount, int raidPoints, JSONArray CoxGenerics)
+    public static String rollLootCoX(int killCount, int raidPoints, JSONArray CoxGenerics)
     {
+        String output;
         String msg1 = "Loot ";
         String msg2 = " at killcount: ";
         JSONObject Generic;
@@ -153,6 +163,8 @@ public class CoX {
         }
 
         System.out.println(msg1 + msg2 + killCount);
+        output = (msg1 + msg2 + killCount + "\n");
+        return output;
 
     }
 

@@ -6,10 +6,12 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -19,7 +21,10 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static net.dv8tion.jda.api.interactions.commands.OptionType.*;
 
@@ -27,7 +32,7 @@ public class SlashBotExample extends ListenerAdapter
 {
     public static void main(String[] args)
     {
-        JDA jda = JDABuilder.createLight("BOT_TOKEN_HERE", EnumSet.noneOf(GatewayIntent.class)) // slash commands don't need any intents
+        JDA jda = JDABuilder.createLight("bot token", EnumSet.noneOf(GatewayIntent.class)) // slash commands don't need any intents
                 .addEventListeners(new SlashBotExample())
                 .build();
 
@@ -51,6 +56,15 @@ public class SlashBotExample extends ListenerAdapter
             Commands.slash("fart", "Make me fart uwu")
         );
 
+        commands.addCommands(
+            Commands.slash("raid", "Simulate A Raid!")
+                .addOption(STRING, "name", "Chambers of Xeric", true, true)
+                .addOption(INTEGER, "quantity", "How many raids?", true)
+                .addOption(INTEGER, "points", "How many points?", true)
+                .addOption(INTEGER, "party_size", "How many people?", true)
+                .addOption(BOOLEAN, "show_normal_loot", "Show non purple loots from the raid?", true)
+        );
+
         // Send the new set of commands to discord, this will override any existing global commands with the new set provided here
         commands.queue();
     }
@@ -72,6 +86,16 @@ public class SlashBotExample extends ListenerAdapter
             break;
         case "fart":
             fart(event);
+            break;
+        case "raid":
+            raid(event,
+                event.getOption("name").getAsString(),
+                event.getOption("quantity").getAsInt(),
+                event.getOption("points").getAsInt(),
+                event.getOption("party_size").getAsInt(),
+                event.getOption("show_normal_loot").getAsBoolean()
+            );
+            break;
         default:
             event.reply("English Motherfucker do you speak it").setEphemeral(true).queue();
         }
@@ -103,6 +127,21 @@ public class SlashBotExample extends ListenerAdapter
         }
     }
 
+    String words[] =
+    {
+        "Chambers of Xeric"
+    };
+    @Override
+    public void onCommandAutoCompleteInteraction(CommandAutoCompleteInteractionEvent event) {
+        if (event.getName().equals("raid") && event.getFocusedOption().getName().equals("name")) {
+            List<Command.Choice> options = Stream.of(words)
+                    .filter(word -> word.startsWith(event.getFocusedOption().getValue())) // only display words that start with the user's current input
+                    .map(word -> new Command.Choice(word, word)) // map the words to choices
+                    .collect(Collectors.toList());
+            event.replyChoices(options).queue();
+        }
+    }
+
     public void say(SlashCommandInteractionEvent event, String content)
     {
         event.reply(content).queue(); // This requires no permissions!
@@ -121,5 +160,26 @@ public class SlashBotExample extends ListenerAdapter
     public void fart(SlashCommandInteractionEvent event)
     {
         event.reply("teehee i farted").queue();
+    }
+
+    public void raid(SlashCommandInteractionEvent event, String name, int quantity, int points, int party_size, boolean show_normal_loot)
+    {
+        String output = "";
+        switch (name)
+        {
+            case "Chambers of Xeric" :
+            output += CoX.runCoX(quantity, points, party_size, show_normal_loot);
+            break;
+            
+            default:
+                output += "Not a valid raid!";
+        }
+
+        if (output.length() >= 2000)
+        {
+            output = "Response too large! Consider reducing the quantity of raids";
+        }
+        
+        event.reply(output).queue();
     }
 }

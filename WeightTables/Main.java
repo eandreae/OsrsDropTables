@@ -5,7 +5,7 @@ public class Main {
 
 
         // Universal
-        int NUM_KILLS = 2000;
+        int NUM_KILLS = 2;
         boolean SHOW_NORMAL_LOOT = false;
         // Chambers
         int COX_POINTS = 570000;
@@ -17,9 +17,11 @@ public class Main {
         String Vardorvis = "Vardorvis";
         //int TOA_INVOCATION = 300;
 
-        //CoX.runCoX(COX_POINTS, NUM_KILLS, PARTY_SIZE, SHOW_NORMAL_LOOT);
+        //CoX.runCoX(NUM_KILLS, COX_POINTS, PARTY_SIZE, SHOW_NORMAL_LOOT);
         //CoX.getTbowChance(COX_POINTS);
 
-        DT2.simulateBoss(Vardorvis, NUM_KILLS, SHOW_NORMAL_LOOT);
+        System.out.println(CoX.runCoX(NUM_KILLS, COX_POINTS, PARTY_SIZE, SHOW_NORMAL_LOOT));
+
+        //DT2.simulateBoss(Vardorvis, NUM_KILLS, SHOW_NORMAL_LOOT);
     }
 }
