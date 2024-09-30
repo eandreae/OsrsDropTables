@@ -1,97 +1,97 @@
 [
   {
     "id": 1,
-    "name": "Death Runes",
+    "name": "Death_rune",
     "weight": 1,
     "divisor": 36
   },
   {
     "id": 2,
-    "name": "Blood Runes",
+    "name": "Blood_rune",
     "weight": 1,
     "divisor": 32
   },
   {
     "id": 3,
-    "name": "Soul Runes",
+    "name": "Soul_rune",
     "weight": 1,
     "divisor": 20
   },
   {
     "id": 4,
-    "name": "Rune Arrows",
+    "name": "Rune_arrow",
     "weight": 1,
     "divisor": 14
   },
   {
     "id": 5,
-    "name": "Dragon Arrows",
+    "name": "Dragon_arrow",
     "weight": 1,
     "divisor": 202
   },
   {
     "id": 6,
-    "name": "Ranarr Weeds",
+    "name": "Grimy_ranarr_weed",
     "weight": 1,
     "divisor": 788
   },
   {
     "id": 7,
-    "name": "Toadflax",
+    "name": "Grimy_toadflax",
     "weight": 1,
     "divisor": 520
   },
   {
     "id": 8,
-    "name": "Irit Leaves",
+    "name": "Grimy_irit_leaf",
     "weight": 1,
     "divisor": 162
   },
   {
     "id": 9,
-    "name": "Avantoes",
+    "name": "Grimy_avantoe",
     "weight": 1,
     "divisor": 324
   },
   {
     "id": 10,
-    "name": "Kwuarms",
+    "name": "Grimy_kwuarm",
     "weight": 1,
     "divisor": 378
   },
   {
     "id": 11,
-    "name": "Snapdragons",
+    "name": "Grimy_snapdragon",
     "weight": 1,
     "divisor": 1300
   },
   {
     "id": 12,
-    "name": "Cadantines",
+    "name": "Grimy_cadantine",
     "weight": 1,
     "divisor": 330
   },
   {
     "id": 13,
-    "name": "Lantadymes",
+    "name": "Grimy_lantadyme",
     "weight": 1,
     "divisor": 248
   },
   {
     "id": 14,
-    "name": "Dwarf Weeds",
+    "name": "Grimy_dwarf_weed",
     "weight": 1,
     "divisor": 200
   },
   {
     "id": 15,
-    "name": "Torstols",
+    "name": "Grimy_torstol",
     "weight": 1,
     "divisor": 810
   },
   {
     "id": 16,
-    "name": "Silver Ore",
+    "name": "Silver_ore",
     "weight": 1,
     "divisor": 20
   },
@@ -103,61 +103,61 @@
   },
   {
     "id": 18,
-    "name": "Gold Ore",
+    "name": "Gold_ore",
     "weight": 1,
     "divisor": 44
   },
   {
     "id": 19,
-    "name": "Mithril Ore",
+    "name": "Mithril_ore",
     "weight": 1,
     "divisor": 32
   },
   {
     "id": 20,
-    "name": "Adamantite Ore",
+    "name": "Adamantite_ore",
     "weight": 1,
     "divisor": 166
   },
   {
     "id": 21,
-    "name": "Runite Ore",
+    "name": "Runite_ore",
     "weight": 1,
     "divisor": 2000
   },
   {
     "id": 22,
-    "name": "Uncut Sapphires",
+    "name": "Uncut_sapphire",
     "weight": 1,
     "divisor": 188
   },
   {
     "id": 23,
-    "name": "Uncut Emeralds",
+    "name": "Uncut_emerald",
     "weight": 1,
     "divisor": 142
   },
   {
     "id": 24,
-    "name": "Uncut Rubies",
+    "name": "Uncut_ruby",
     "weight": 1,
     "divisor": 242
   },
   {
     "id": 25,
-    "name": "Uncut Diamonds",
+    "name": "Uncut_diamond",
     "weight": 1,
     "divisor": 508
   },
   {
     "id": 26,
-    "name": "Lizardmen Fangs",
+    "name": "Lizardmen_fang",
     "weight": 1,
     "divisor": 28
   },
   {
     "id": 27,
-    "name": "Pure Essence",
+    "name": "Pure_essence",
     "weight": 1,
     "divisor": 2
   },
@@ -169,13 +169,13 @@
   },
   {
     "id": 29,
-    "name": "Teak Planks",
+    "name": "Teak_plank",
     "weight": 1,
     "divisor": 96
   },
   {
     "id": 30,
-    "name": "Mahogany Planks",
+    "name": "Mahogany_plank",
     "weight": 1,
     "divisor": 238
   },
@@ -187,13 +187,13 @@
   },
   {
     "id": 32,
-    "name": "Torn Prayer Scroll",
+    "name": "Torn_prayer_scroll",
     "weight": 1,
     "divisor": 0
   },
   {
     "id": 33,
-    "name": "Dark Relic",
+    "name": "Dark_relic",
     "weight": 1,
     "divisor": 0
   }

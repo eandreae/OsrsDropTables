@@ -1,6 +1,7 @@
 package WeightTables;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Random;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,12 +16,21 @@ public class DT2 {
     public static boolean HAS_TABLET = false; // Default false.
     public static int VESTIGE_ROLLS = 0; // default 0.
 
-    public static void simulateBoss(String InputBossName, int numKills, boolean ShowNormalLoot)
+    public static int FOOD_MINIMUM = 3;
+    public static int FOOD_MAXIMUM = 4;
+
+    public static String IMAGE_FILE_FORMAT = "png";
+    public static String DT2_LOOT_IMAGE_PATH = "WeightTables\\DT2Loot.png";
+
+    public static HashMap<String, Integer> simulateBoss(String InputBossName, int numKills)
     {
         JSONParser parser = new JSONParser();
         JSONArray BossArray = null;
         JSONArray UniversalDT2Uniques = null;
         JSONArray VirtusTable = null;
+        HAS_TABLET = false;
+        
+        HashMap<String, Integer> output = new HashMap<String, Integer>();
 
         try
         {
@@ -35,10 +45,9 @@ public class DT2 {
         }
 
         JSONObject BossUniques = (JSONObject) BossArray.get(0);
-        String loot = null;
+        JSONObject BossSupplies = (JSONObject) BossArray.get(1);
 
-        Long PC = (Long) BossUniques.get("Pet Chance");
-        int PetChance = PC.intValue();
+        int PetChance = ((Long) BossUniques.get("Pet Chance")).intValue();
         String PetName = (String) BossUniques.get("Pet Name");
         
         Random rand = new Random();
@@ -48,42 +57,83 @@ public class DT2 {
         
         for (int i = 1; i <= numKills; i++)
         {
-            // Regular Loot
-            loot = rollDT2Loot(BossUniques, UniversalDT2Uniques, VirtusTable);
-            // Check for Pet
-            roll = rand.nextInt(PetChance+1);
-            if ((loot.equals("Normal Loot") || loot.equals("Supply Drop")) && !ShowNormalLoot)
-            {
-                // Print nothing for normal loot, still check pet.
-                if (roll == PetChance)
-                {
-                    System.out.println(PetName + " at killcount: " + i);
-                }
+            String LootName = rollDT2Loot(BossArray, UniversalDT2Uniques, VirtusTable);
 
-            }
-            else 
+            switch (LootName)
             {
-                if (roll == PetChance)
+                case "Supply_roll":
+                    String FoodName = (String) BossSupplies.get("food");
+                    int FoodNum = rand.nextInt(FOOD_MINIMUM, FOOD_MAXIMUM+1); // 2nd argument is exclusive.
+                    String Potion1Name = (String) BossSupplies.get("potion1");
+                    String Potion2Name = (String) BossSupplies.get("potion2");
+
+                    if (output.containsKey(FoodName))
+                    {
+                        output.put(FoodName, (output.get(FoodName)+FoodNum));
+                        output.put(Potion1Name, (output.get(Potion1Name)+1));
+                        output.put(Potion2Name, (output.get(Potion2Name)+1));
+                    }
+                    else
+                    {
+                        output.put(FoodName, FoodNum);
+                        output.put(Potion1Name, 1);
+                        output.put(Potion2Name, 1);                        
+                    }
+                    break;
+                case "Normal_loot":
+                    JSONObject NormalLoot = WeightFunctions.rollItem(BossArray);
+                    String NormalLootName = (String) NormalLoot.get("name");
+                    int Quantity = ((Long) NormalLoot.get("quantity")).intValue();
+
+                    if (output.containsKey(NormalLootName))
+                    {
+                        output.put(NormalLootName, (output.get(NormalLootName)+Quantity));
+                    }
+                    else
+                    {
+                        output.put(NormalLootName, Quantity);
+                    }
+                    break;
+                default:
+                    if (output.containsKey(LootName))
+                    {
+                        output.put(LootName, (output.get(LootName)+1));
+                    }
+                    else
+                    {
+                        output.put(LootName, 1);
+                    }
+                    break;
+            }
+
+            // Roll for pet
+            roll = rand.nextInt(PetChance+1);
+            if (roll == PetChance)
+            {
+                if (output.containsKey(PetName))
                 {
-                    System.out.println(loot + " & " + PetName + " at killcount: " + i);
+                    output.put(PetName, (output.get(PetName)+1));
                 }
-                else 
+                else
                 {
-                    System.out.println(loot + " at killcount: " + i);
+                    output.put(PetName, 1);
                 }
             }
         }
+
+        return output;
     }
 
-    public static String rollDT2Loot(JSONObject BossUniques, JSONArray UniversalUniques, JSONArray VirtusTable)
+    public static String rollDT2Loot(JSONArray BossArray, JSONArray UniversalUniques,
+        JSONArray VirtusTable)
     {
-        String output;
+        JSONObject BossUniques = (JSONObject) BossArray.get(0);
+
         Random rand = new Random();
         int roll;
 
         // First, check if the loot roll is a Unique
-        Long UC = (Long) BossUniques.get("Unique Chance");
-        int UniqueChance = UC.intValue();
+        int UniqueChance = ((Long) BossUniques.get("Unique Chance")).intValue();
 
         roll = rand.nextInt(UniqueChance+1);
         if (roll == UniqueChance)
@@ -93,74 +143,89 @@ public class DT2 {
             String name = (String) Unique.get("name");
 
             // Check if the Unique is a Vestige Roll
-            if (name.equals("Vestige Roll"))
+            if (name.equals("Vestige_roll"))
             {
                 VESTIGE_ROLLS++;
                 if (VESTIGE_ROLLS >= 3)
                 {
                     VESTIGE_ROLLS = 0;
-                    return output = (String) BossUniques.get("Vestige Name");
+                    String vestigeName = (String) BossUniques.get("Vestige Name");
+                    return vestigeName;
                 }
-                return output = name;
+
+                int SupplyChance = ((Long) BossUniques.get("Supply Chance")).intValue();
+                int supplyCheck = rand.nextInt(SupplyChance+1);
+                if (supplyCheck == SupplyChance)
+                {
+                    return "Supply_roll";
+                }
+                return "Normal_loot";
             }
 
             // Check if the Unique is a Virtus Piece
-            if (name.equals("Virtus Piece"))
+            if (name.equals("Virtus_piece"))
             {
                 // Roll the Virtus Table
                 JSONObject VirtusPiece = WeightFunctions.rollItem(VirtusTable);
-                return output = (String) VirtusPiece.get("name");
+                String virtusName = (String) VirtusPiece.get("name");
+                return virtusName;
             }
 
             // Check if the Unique was the Axe Piece
-            if (name.equals("Axe Piece"))
+            if (name.equals("Axe_piece"))
             {
-                return output = (String) BossUniques.get("Axe Piece Name");
+                String AxePieceName = (String) BossUniques.get("Axe Piece Name");
+                return AxePieceName;
             }
 
             // Return Chromium Ingot
-            return output = name;
+            return name;
         }
 
         // Next, roll for the Orb
-        Long OC = (Long) BossUniques.get("Orb Chance");
-        int OrbChance = OC.intValue();
+        int OrbChance = ((Long) BossUniques.get("Orb Chance")).intValue();
+        String orb = "Awakener's_orb";
 
         roll = rand.nextInt(OrbChance+1);
-        if (roll == OrbChance) {return output = "Awakener's Orb";}
+        if (roll == OrbChance) 
+        {
+            return orb;
+        }
 
         // Next, roll for the Tablet
         if (!HAS_TABLET)
         {
-            Long TC = (Long) BossUniques.get("Tablet Chance");
-            int TabletChance = TC.intValue();
+            int TabletChance = ((Long) BossUniques.get("Tablet Chance")).intValue();
+            String tabletName = (String) BossUniques.get("Tablet Name");
 
             roll = rand.nextInt(TabletChance+1);
             if (roll == TabletChance)
             {
                 HAS_TABLET = true;
-                return output = (String) BossUniques.get("Tablet Name");
+                return tabletName;
             }
         }
 
         // Next, roll for the Quartz
-        Long QC = (Long) BossUniques.get("Quartz Chance");
-        int QuartzChance = QC.intValue();
+        int QuartzChance = ((Long) BossUniques.get("Quartz Chance")).intValue();
+        String quartzName = (String) BossUniques.get("Quartz Name");
 
         roll = rand.nextInt(QuartzChance+1);
         if (roll == QuartzChance)
         {
-            return output = (String) BossUniques.get("Quartz Name");
+            return quartzName;          
         }
         
-        // Next, roll for Supply Drop
-        Long SC = (Long) BossUniques.get("Supply Chance");
-        int SupplyChance = SC.intValue();
+        // Next, roll for Supply Drop.
+        int SupplyChance = ((Long) BossUniques.get("Supply Chance")).intValue();
 
         roll = rand.nextInt(SupplyChance+1);
-        if (roll == SupplyChance) {return output = "Supply Drop";}
+        if (roll == SupplyChance)
+        {
+            return "Supply_roll";
+        }
         
         // Finally, return Normal Loot.
-        return output = "Normal Loot";
+        return "Normal_loot";
     }
 }

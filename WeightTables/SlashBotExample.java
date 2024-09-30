@@ -3,30 +3,22 @@ package WeightTables;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -61,11 +53,17 @@ public class SlashBotExample extends ListenerAdapter
         );
 
         commands.addCommands(
-            Commands.slash("raid", "Simulate A Raid!")
-                .addOption(STRING, "name", "Chambers of Xeric", true, true)
+            Commands.slash("raid", "Simulate a raid!")
+                .addOption(STRING, "name", "Which raid?", true, true)
                 .addOption(INTEGER, "quantity", "How many raids?", true)
                 .addOption(INTEGER, "points", "How many points?", true)
                 .addOption(INTEGER, "party_size", "How many people?", true)
+        );
+
+        commands.addCommands(
+            Commands.slash("kill", "Simulator a boss!")
+                .addOption(STRING, "name", "Which boss?", true, true)
+                .addOption(INTEGER, "quantity", "How many kills?", true)
         );
 
         // Send the new set of commands to discord, this will override any existing global commands with the new set provided here
@@ -96,6 +94,12 @@ public class SlashBotExample extends ListenerAdapter
                 event.getOption("quantity").getAsInt(),
                 event.getOption("points").getAsInt(),
                 event.getOption("party_size").getAsInt()
+            );
+            break;
+        case "kill":
+            kill(event,
+                event.getOption("name").getAsString(),
+                event.getOption("quantity").getAsInt()
             );
             break;
         default:
@@ -129,14 +133,28 @@ public class SlashBotExample extends ListenerAdapter
         }
     }
 
-    String words[] =
+    String RaidWords[] =
     {
-        "Chambers of Xeric"
+        "Chambers of Xeric",
+    };
+    String BossWords[] =
+    {
+        "Duke",
+        "Leviathan",
+        "Vardorvis",
+        "Whisperer"
     };
     @Override
     public void onCommandAutoCompleteInteraction(CommandAutoCompleteInteractionEvent event) {
         if (event.getName().equals("raid") && event.getFocusedOption().getName().equals("name")) {
-            List<Command.Choice> options = Stream.of(words)
+            List<Command.Choice> options = Stream.of(RaidWords)
+                    .filter(word -> word.startsWith(event.getFocusedOption().getValue())) // only display words that start with the user's current input
+                    .map(word -> new Command.Choice(word, word)) // map the words to choices
+                    .collect(Collectors.toList());
+            event.replyChoices(options).queue();
+        }
+        if (event.getName().equals("kill") && event.getFocusedOption().getName().equals("name")) {
+            List<Command.Choice> options = Stream.of(BossWords)
                     .filter(word -> word.startsWith(event.getFocusedOption().getValue())) // only display words that start with the user's current input
                     .map(word -> new Command.Choice(word, word)) // map the words to choices
                     .collect(Collectors.toList());
@@ -174,7 +192,9 @@ public class SlashBotExample extends ListenerAdapter
                 HashMap<String, Integer> CoxLoot = CoX.runCoX(quantity, points, party_size);
                 try
                 {
-                    ImagePath = CoX.GenerateCoxLootImage(CoxLoot);
+                    String CoxImagePath = CoX.COX_LOOT_IMAGE_PATH;
+                    String CoxFileFormat = CoX.IMAGE_FILE_FORMAT;
+                    ImagePath = ImageGenerator.GenerateLootImage(CoxLoot, CoxImagePath, CoxFileFormat);
                 }
                 catch (Exception e)
                 {
@@ -189,7 +209,32 @@ public class SlashBotExample extends ListenerAdapter
 
         File image = new File(ImagePath);
 
-        output += quantity + " raids, each with, " + points + " points";
+        output += quantity + " raids, each with " + points + " points";
+
+        event.getChannel().sendMessage(output).queue();
+        event.replyFiles(FileUpload.fromData(image)).queue();
+
+    }
+
+    public void kill(SlashCommandInteractionEvent event, String name, int quantity)
+    {
+        String output = "";
+        String ImagePath = "";
+        HashMap<String, Integer> DT2Loot = DT2.simulateBoss(name, quantity);
+        try
+        {
+            String DT2ImagePath = DT2.DT2_LOOT_IMAGE_PATH;
+            String CoxFileFormat = DT2.IMAGE_FILE_FORMAT;
+            ImagePath = ImageGenerator.GenerateLootImage(DT2Loot, DT2ImagePath, CoxFileFormat);
+        }
+        catch (Exception e)
+        {
+            output = "Invalid Image!";
+        }
+
+        File image = new File(ImagePath);
+
+        output += "Killed " + name + " " + quantity + " times";
 
         event.getChannel().sendMessage(output).queue();
         event.replyFiles(FileUpload.fromData(image)).queue();
