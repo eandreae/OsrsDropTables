@@ -194,24 +194,24 @@ public class SlashBotExample extends ListenerAdapter
                 {
                     String CoxImagePath = CoX.COX_LOOT_IMAGE_PATH;
                     String CoxFileFormat = CoX.IMAGE_FILE_FORMAT;
-                    ImagePath = ImageGenerator.GenerateLootImage(CoxLoot, CoxImagePath, CoxFileFormat);
+                    String ImageText = ("Loot from " + quantity + " " + name + ", with " + points + " points:");
+                    ImagePath = ImageGenerator.GenerateLootImage(CoxLoot, CoxImagePath, CoxFileFormat, ImageText);
                 }
                 catch (Exception e)
                 {
                     output = "Invalid Image!";
+                    event.reply(output).queue();
                 }
             break;
             
             default:
                 output += "Not a valid raid!";
+                event.reply(output).queue();
         }
         
 
         File image = new File(ImagePath);
 
-        output += quantity + " raids, each with " + points + " points";
-
-        event.getChannel().sendMessage(output).queue();
         event.replyFiles(FileUpload.fromData(image)).queue();
 
     }
@@ -224,19 +224,18 @@ public class SlashBotExample extends ListenerAdapter
         try
         {
             String DT2ImagePath = DT2.DT2_LOOT_IMAGE_PATH;
-            String CoxFileFormat = DT2.IMAGE_FILE_FORMAT;
-            ImagePath = ImageGenerator.GenerateLootImage(DT2Loot, DT2ImagePath, CoxFileFormat);
+            String DT2FileFormat = DT2.IMAGE_FILE_FORMAT;
+            String ImageText = ("Loot from " + quantity + " " + name + " kills:");
+            ImagePath = ImageGenerator.GenerateLootImage(DT2Loot, DT2ImagePath, DT2FileFormat, ImageText);
         }
         catch (Exception e)
         {
             output = "Invalid Image!";
+            event.reply(output).queue();
         }
 
         File image = new File(ImagePath);
 
-        output += "Killed " + name + " " + quantity + " times";
-
-        event.getChannel().sendMessage(output).queue();
         event.replyFiles(FileUpload.fromData(image)).queue();
 
     }

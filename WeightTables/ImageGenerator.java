@@ -15,22 +15,29 @@ public class ImageGenerator {
     
 
     public static String GenerateLootImage(HashMap<String,Integer> LootMap, 
-        String filepath, String fileformat) throws Exception
+        String filepath, String fileformat, String HeaderText) throws Exception
     {
+        // Dimensions of each item tile
         int TILE_WIDTH = 32;
         int TILE_HEIGHT = 32;
 
+        // Buffers between each item tile
         int BUFFER_WIDTH = 16;
         int BUFFER_HEIGHT = 4;
 
+        // Initial offsets for the item numerical text
         int TEXT_OFFSET_X = 1;
         int TEXT_OFFSET_Y = 9;
 
+        // Buffer space at the top to include the text header
+        int HEADER_OFFSET_Y = 20;
+
+        // Initial X and Y
         int X = BUFFER_WIDTH;
-        int Y = BUFFER_HEIGHT;
+        int Y = BUFFER_HEIGHT + HEADER_OFFSET_Y;
 
         int CANVAS_WIDTH = 400;
-        int CANVAS_HEIGHT = (((LootMap.size()/8)+1)*36);
+        int CANVAS_HEIGHT = (HEADER_OFFSET_Y + ((LootMap.size()/8)+1)*(TILE_HEIGHT+BUFFER_HEIGHT));
 
         String IMAGE_PATH = "WeightTables\\LootSourceImages\\";
         String FONT_PATH = "WeightTables\\RuneScape-Plain-11.ttf";
@@ -97,6 +104,11 @@ public class ImageGenerator {
             }            
         }
 
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(HeaderText, BUFFER_WIDTH+1, BUFFER_HEIGHT+TEXT_OFFSET_Y+1);
+        g2d.setColor(Color.YELLOW);
+        g2d.drawString(HeaderText, BUFFER_WIDTH, BUFFER_HEIGHT+TEXT_OFFSET_Y);
+        
         ImageIO.write(image, fileformat, new File(filepath));
 
         return filepath;

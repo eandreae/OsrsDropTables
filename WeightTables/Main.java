@@ -12,9 +12,9 @@ public class Main {
         String IMAGE_FILE_FORMAT = "png";
 
         // Universal
-        int NUM_KILLS = 4000; 
+        int NUM_KILLS = 10000; 
         // Chambers
-        int COX_POINTS = 30000;
+        int COX_POINTS = 3000000;
         int PARTY_SIZE = 1;
         // DT2
         String Duke = "Duke";
@@ -26,11 +26,17 @@ public class Main {
         //HashMap<String, Integer> test = CoX.runCoX(NUM_KILLS, COX_POINTS, PARTY_SIZE);
         //String imageTest = ImageGenerator.GenerateLootImage(test, COX_LOOT_IMAGE_PATH, IMAGE_FILE_FORMAT);
 
-        HashMap<String, Integer> test = DT2.simulateBoss(Whisperer, NUM_KILLS);
-        String imageTest = ImageGenerator.GenerateLootImage(test, DT2_LOOT_IMAGE_PATH, IMAGE_FILE_FORMAT);
+        //String ImageText = ("Loot from " + NUM_KILLS + " Chambers of Xeric, each with "
+        //    + COX_POINTS + " points:");
+
+        String HeaderText = ("Loot from " + NUM_KILLS + " " + Duke + " kills:");
+
+        HashMap<String, Integer> test = DT2.simulateBoss(Duke, NUM_KILLS);
+        String imageTest = ImageGenerator.GenerateLootImage(test, DT2_LOOT_IMAGE_PATH, IMAGE_FILE_FORMAT, HeaderText);
         
 
         //HashMap<String, Integer> test = CoX.runCoX(NUM_KILLS, COX_POINTS, PARTY_SIZE);
+        //String imageTest = ImageGenerator.GenerateLootImage(test, COX_LOOT_IMAGE_PATH, IMAGE_FILE_FORMAT, ImageText);
 
         //System.out.println(test.toString());
 
